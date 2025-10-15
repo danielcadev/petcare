@@ -1,6 +1,13 @@
 "use client";
 
-import { type FormEvent, useEffect, useMemo, useState } from "react";
+import {
+  type FormEvent,
+  type RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 type ScheduleEntry = {
   id: string;
@@ -115,6 +122,13 @@ export default function Home() {
     age: 3,
     diet: "Balanceada premium",
   });
+
+  const scheduleSectionRef = useRef<HTMLDivElement>(null);
+  const monitoringSectionRef = useRef<HTMLDivElement>(null);
+
+  const scrollToSection = (ref: RefObject<HTMLElement>) => {
+    ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -243,12 +257,14 @@ export default function Home() {
             <div className="flex flex-col gap-4 sm:flex-row">
               <button
                 type="button"
+                onClick={() => scrollToSection(scheduleSectionRef)}
                 className="w-full rounded-full bg-rose-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-rose-200 transition hover:bg-rose-600 sm:w-auto"
               >
                 Crear horario personalizado
               </button>
               <button
                 type="button"
+                onClick={() => scrollToSection(monitoringSectionRef)}
                 className="w-full rounded-full bg-white/80 px-6 py-3 text-sm font-semibold text-rose-600 shadow-md shadow-rose-100 ring-1 ring-rose-300 transition hover:bg-rose-50 sm:w-auto"
               >
                 Ver panel de monitoreo
@@ -284,7 +300,7 @@ export default function Home() {
           </div>
         </header>
 
-        <section className="grid gap-8 md:grid-cols-2">
+        <section ref={scheduleSectionRef} className="grid gap-8 md:grid-cols-2">
           <div className="rounded-3xl bg-white/80 p-8 shadow-lg shadow-rose-100 ring-1 ring-white/80 backdrop-blur">
             <h3 className="text-xl font-semibold text-slate-900">
               Programar horarios
@@ -420,7 +436,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white/80 p-8 shadow-lg shadow-sky-100 ring-1 ring-white/80 backdrop-blur">
+          <div
+            ref={monitoringSectionRef}
+            className="rounded-3xl bg-white/80 p-8 shadow-lg shadow-sky-100 ring-1 ring-white/80 backdrop-blur"
+          >
             <h3 className="text-xl font-semibold text-slate-900">
               Monitoreo en tiempo real
             </h3>

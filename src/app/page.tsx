@@ -126,7 +126,7 @@ export default function Home() {
   const scheduleSectionRef = useRef<HTMLDivElement>(null);
   const monitoringSectionRef = useRef<HTMLDivElement>(null);
 
-  const scrollToSection = (ref: RefObject<HTMLElement>) => {
+  const scrollToSection = (ref: RefObject<HTMLElement | null>) => {
     ref.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
